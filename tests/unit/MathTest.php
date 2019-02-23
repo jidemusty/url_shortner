@@ -1,5 +1,6 @@
 <?php
 
+use App\Link;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
@@ -12,12 +13,13 @@ class MathTest extends TestCase
     ];
 
     /** @test */
-    public function correctly_encodes_values()
+    public function correct_code_is_generated()
     {
-        $math = new \App\Helpers\Math;
+        $link = new Link;
 
-        foreach ($this->mappings as $value => $encoded) {
-            $this->assertEquals($encoded, $math->toBase($value));
+        foreach ($this->mappings as $id => $expectedCode) {
+            $link->id = $id;
+            $this->assertEquals($link->getCode(), $expectedCode);
         }
     }
 }
