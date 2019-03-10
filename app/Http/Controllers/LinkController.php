@@ -22,20 +22,10 @@ class LinkController extends Controller
 
        if (!$link->exists) {
            $link->save();
-
-           $link->update([
-               'code' => $link->getCode()
-           ]);
        }
 
        $link->increment('requested_count');
 
-       return response()->json([
-           'data' => [
-               'original_url' => $link->original_url,
-               'shortened_url' => env('CLIENT_URL') . '/' . $link->code,
-               'code' => $link->code
-           ]
-       ], 200);
+       return $this->linkResponse($link);
    }
 }

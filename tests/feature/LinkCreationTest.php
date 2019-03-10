@@ -34,7 +34,7 @@ class LinkCreationTest extends TestCase
     public function link_can_be_shortened()
     {
         $this->json('POST', '/', [
-            'url' => 'http://www.google.com'
+            'url' => 'www.google.com'
         ])
             ->seeInDatabase('links', [
                 'original_url' => 'http://www.google.com',
