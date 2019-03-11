@@ -12,3 +12,4 @@
 */
 
 $router->post('/', 'LinkController@store');
+$router->get('/', 'LinkController@show');

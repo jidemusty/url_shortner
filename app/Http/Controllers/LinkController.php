@@ -7,6 +7,22 @@ use App\Link;
 
 class LinkController extends Controller
 {
+    public function show(Request $request)
+    {
+        $code = $request->get('code');
+
+        $link = Link::byCode($code)->first();
+
+        if ($link === null) {
+            return response(null, 404);
+        }
+
+        $link->increment('used_count');
+
+        return $this->linkResponse($link);
+
+    }
+
    public function store(Request $request)
    {
        $this->validate($request, [
