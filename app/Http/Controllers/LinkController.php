@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Link;
+use Cache;
 
 class LinkController extends Controller
 {
@@ -11,7 +12,9 @@ class LinkController extends Controller
     {
         $code = $request->get('code');
 
-        $link = Link::byCode($code)->first();
+        $link = Cache::rememberForever("link.{$code}", function () use ($code) {
+            return Link::byCode($code)->first();
+        });
 
         if ($link === null) {
             return response(null, 404);
