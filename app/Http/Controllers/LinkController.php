@@ -23,7 +23,6 @@ class LinkController extends Controller
         $link->increment('used_count');
 
         return $this->linkResponse($link);
-
     }
 
    public function store(Request $request)

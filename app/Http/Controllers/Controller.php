@@ -7,14 +7,15 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-    protected function linkResponse(Link $link)
+    protected function linkResponse(Link $link, $merge = [])
     {
         return response()->json([
-            'data' => [
+            'data' => array_merge([
                 'original_url' => $link->original_url,
                 'shortened_url' => $link->shortenedUrl(),
-                'code' => $link->code
-            ]
+                'code' => $link->code,
+
+            ], $merge)
         ], 200);
     }
 }
