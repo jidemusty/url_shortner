@@ -37,8 +37,8 @@ class LinkStatsTest extends TestCase
             'code' => $link->code,
             'requested_count' => $link->requested_count,
             'used_count' => $link->used_count,
-            'created_at' => $link->created_at->toDateTimeString(),
-            'updated_at' => $link->created_at->toDateTimeString(),
+            'last_requested' => $link->last_requested->toDateTimeString(),
+            'last_used' => $link->last_used ? $link->last_used->toDateTimeString() : null,
         ];
     }
 }

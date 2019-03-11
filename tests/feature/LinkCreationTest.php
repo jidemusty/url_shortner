@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use App\Link;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
@@ -75,5 +76,21 @@ class LinkCreationTest extends TestCase
             'original_url' => $url,
             'requested_count' => 2
         ]);
+    }
+
+    /** @test */
+    public function last_requested_date_is_updated_for_existing_link()
+    {
+        Link::flushEventListeners();
+
+        $link = factory(Link::class)->create([
+            'last_requested' => Carbon::now()->subDays(2)
+        ]);
+
+        $this->json('POST', '/', ['url' => $link->original_url])
+            ->seeInDatabase('links', [
+                'original_url' => $link->original_url,
+                'last_requested' => Carbon::now()->toDateTimeString()
+            ]);
     }
 }

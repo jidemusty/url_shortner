@@ -23,8 +23,8 @@ class LinkStatsController extends Controller
         return $this->linkResponse($link, [
             'requested_count' => (int) $link->requested_count,
             'used_count' => (int) $link->used_count,
-            'created_at' => $link->created_at->toDateTimeString(),
-            'updated_at' => $link->created_at->toDateTimeString(),
+            'last_requested' => $link->last_requested->toDateTimeString(),
+            'last_used' => $link->last_used ? $link->last_used->toDateTimeString() : null,
         ]);
     }
 }

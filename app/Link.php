@@ -2,9 +2,9 @@
 
 namespace App;
 
-use App\Exceptions\CodeGenerationException;
 use App\Helpers\Math;
 use Illuminate\Database\Eloquent\Model;
+use App\Exceptions\CodeGenerationException;
 
 class Link extends Model
 {
@@ -12,8 +12,21 @@ class Link extends Model
         'original_url',
         'code',
         'requested_count',
-        'used_count'
+        'used_count',
+        'last_requested',
+        'last_used'
     ];
+
+    protected $dates = [
+        'last_requested',
+        'last_used'
+    ];
+
+    public function touchTimestamp($column)
+    {
+        $this->{$column} = $this->freshTimestamp();
+        $this->save();
+    }
 
     public function getCode()
     {

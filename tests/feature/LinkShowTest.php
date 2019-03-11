@@ -1,6 +1,7 @@
 <?php
 
 use App\Link;
+use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
@@ -46,5 +47,21 @@ class LinkShowTest extends TestCase
             'original_url' => $link->original_url,
             'used_count' => 3
         ]);
+    }
+
+    /** @test */
+    public function last_used_date_is_updatedk()
+    {
+        Link::flushEventListeners();
+
+        $link = factory(Link::class)->create([
+            'last_used' => Carbon::now()->subDays(2)
+        ]);
+
+        $this->json('GET', '/', ['code' => $link->code])
+            ->seeInDatabase('links', [
+                'original_url' => $link->original_url,
+                'last_used' => Carbon::now()->toDateTimeString()
+            ]);
     }
 }
