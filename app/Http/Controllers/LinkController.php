@@ -30,13 +30,13 @@ class LinkController extends Controller
    public function store(Request $request)
    {
        $this->validate($request, [
-           'url' => 'required|url'
+           'url' => 'required | url'
        ], [
            'url.required' => 'Please enter a URL to shorten',
            'url.url' => 'Hmm, that doesn\'t look like a valid URL'
        ]);
 
-       $link = Link::firstorNew([
+       $link = Link::firstOrNew([
            'original_url' => $request->get('url')
        ]);
 
